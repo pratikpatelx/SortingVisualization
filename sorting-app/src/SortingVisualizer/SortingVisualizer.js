@@ -1,68 +1,149 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./SortingVisualizer.css";
 import { Navbar, Nav } from "react-bootstrap";
-// export default SortingVisualizer;
-// This is the main color of the array bars.
+import { MergeSort } from "../SortingAlgorithms/MergeSort";
+
+// // This is the main color of the array bars.
 const PRIMARY_COLOR = "turquoise";
 
-export default class SortingVisualizer extends React.Component {
-  constructor(props) {
-    super(props);
+function SortingVisualizer(props) {
+  //Declare a new state variable called array that will store the elements to be sorted
+  const [array, setArray] = useState([]);
 
-    this.state = {
-      array: [],
-    };
-  }
+  //A new state variable that tells us if we are sorting the array or not
+  const [startSorting, setstartSorting] = useState(false);
 
-  componentDidMount() {
-    this.resetArray();
-  }
+  //A new state variable that checks if array is sorted or not
+  const [isSorted, setisSorted] = useState(false);
 
-  resetArray() {
-    const array = [];
-    for (let index = 0; index < 100; index++) {
-      array.push(randomIntFromInterval(5, 600));
+  //Need this Ref to access the DOM nodes
+  const nodeRef = useRef(null);
+
+  //similar to componentDidMount we want to load a new array each time we load the page
+  useEffect(resetArray, []);
+
+  //This function resets the contents of the array each time we reload the page a new array will be generated
+  // with random values
+  function resetArray() {
+    //check if we are sorting the array
+    if (startSorting) {
+      return;
     }
-    this.setState({ array });
+    //check if array is already sorted then we just reset the color of the array contents i.e bars
+    if (isSorted) {
+      resetArrayColor();
+    }
+
+    //our array is not sorted
+    setisSorted(false);
+
+    // create a new temporary array
+    const tempArray = [];
+    //assign random values to the temporary array
+    for (let index = 0; index < 100; index++) {
+      tempArray.push(randomIntFromInterval(5, 600));
+    }
+    // set the state of the array
+    setArray(tempArray);
   }
 
-  render() {
-    const { array } = this.state;
-
-    return (
-      <>
-        <Navbar bg="dark" variant="dark">
-          <Navbar.Brand>Sorting Visualization</Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link onClick={() => this.resetArray()}>
-                Generate New Array
-              </Nav.Link>
-              <Nav.Link>Merge Sort</Nav.Link>
-              <Nav.Link>Quick Sort</Nav.Link>
-              <Nav.Link>Heap Sort</Nav.Link>
-              <Nav.Link>Bubble Sort</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-        <div className="array-container">
-          {array.map((value, idx) => (
-            <div
-              className="array-bar"
-              key={idx}
-              style={{
-                backgroundColor: PRIMARY_COLOR,
-                height: `${value}px`,
-              }}
-            ></div>
-          ))}
-        </div>
-      </>
-    );
+  function resetArrayColor() {
+    const arrBars = nodeRef.current.children;
+    for (let i = 0; i < array.length; i++) {
+      const arrBarStyle = arrBars[i].style;
+      arrBarStyle.backgroundColor = PRIMARY_COLOR;
+    }
   }
+
+  function mergeSort() {
+    const animationsArr = MergeSort(array);
+    updateAnimation(animationsArr);
+  }
+
+  function updateAnimation(animations) {
+    if (startSorting) {
+      return;
+    }
+    setstartSorting(true);
+    animations.forEach(([comparison, swapped], index) => {
+      setTimeout(() => {
+        if (!swapped) {
+          if (comparison.length === 2) {
+            const [i, j] = comparison;
+            setArrayAccessAnimation(i);
+            setArrayAccessAnimation(j);
+          } else {
+            const [i] = comparison;
+            setArrayAccessAnimation(i);
+          }
+        } else {
+          setArray((prevArray) => {
+            const [k, newValue] = comparison;
+            const newArray = [...prevArray];
+            newArray[k] = newValue;
+            return newArray;
+          });
+        }
+      }, index * 5);
+    });
+    setTimeout(() => {
+      animateSortedArray();
+    }, animations.length * 5);
+  }
+
+  function setArrayAccessAnimation(index) {
+    const arrayBars = nodeRef.current.children;
+    const arrayBarStyle = arrayBars[index].style;
+    setTimeout(() => {
+      arrayBarStyle.backgroundColor = "red";
+    }, 5);
+
+    setTimeout(() => {
+      arrayBarStyle.backgroundColor = "blue";
+    }, 5 * 2);
+  }
+
+  function animateSortedArray() {
+    const arrayBars = nodeRef.current.children;
+    for (let index = 0; index < arrayBars.length; index++) {
+      const arrayBarStyle = arrayBars[index].style;
+      setTimeout(() => (arrayBarStyle.backgroundColor = "green"), index * 5);
+    }
+    setTimeout(() => {
+      setisSorted(true);
+      setstartSorting(false);
+    }, arrayBars.length * 5);
+  }
+  return (
+    <>
+      <Navbar bg="dark" variant="dark">
+        <Navbar.Brand>Sorting Visualization</Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link onClick={resetArray}>Generate New Array</Nav.Link>
+            <Nav.Link onClick={mergeSort}>Merge Sort</Nav.Link>
+            <Nav.Link>Quick Sort</Nav.Link>
+            <Nav.Link>Heap Sort</Nav.Link>
+            <Nav.Link>Bubble Sort</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+      <div className="array-container" ref={nodeRef}>
+        {array.map((value, idx) => (
+          <div
+            className="array-bar"
+            style={{ backgroundColor: PRIMARY_COLOR, height: `${value}px` }}
+            key={idx}
+          ></div>
+        ))}
+      </div>
+    </>
+  );
 }
 
 function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+export default SortingVisualizer;
