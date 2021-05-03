@@ -3,8 +3,22 @@ import "./SortingVisualizer.css";
 import { Navbar, Nav } from "react-bootstrap";
 import { MergeSort } from "../SortingAlgorithms/MergeSort";
 
-// // This is the main color of the array bars.
-const PRIMARY_COLOR = "turquoise";
+//Maximum Array Size
+const MAX_ARR_LEN = 100;
+
+//Maximum Delay of Animation (used in Timeouts)
+const MAX_DELAY = 5;
+
+// This is the main color of the array bars before sorted.
+const PRIMARY_COLOR = "#6399F1";
+
+// This is the colour of the Bars after they are sorted
+const SORTED_COLOR = "#B578E8";
+
+// This is the color of the comparison bar that will be compared based on the comparison
+const COMPARISON_COLOR_1 = "#B22222";
+// This is the color of the comparison bar that will be compared based on the comparison
+const COMPARISON_COLOR_2 = "#FFA500";
 
 function SortingVisualizer(props) {
   //Declare a new state variable called array that will store the elements to be sorted
@@ -40,7 +54,7 @@ function SortingVisualizer(props) {
     // create a new temporary array
     const tempArray = [];
     //assign random values to the temporary array
-    for (let index = 0; index < 100; index++) {
+    for (let index = 0; index < MAX_ARR_LEN; index++) {
       tempArray.push(randomIntFromInterval(5, 600));
     }
     // set the state of the array
@@ -84,35 +98,38 @@ function SortingVisualizer(props) {
             return newArray;
           });
         }
-      }, index * 5);
+      }, index * MAX_DELAY);
     });
     setTimeout(() => {
       animateSortedArray();
-    }, animations.length * 5);
+    }, animations.length * MAX_DELAY);
   }
 
   function setArrayAccessAnimation(index) {
     const arrayBars = nodeRef.current.children;
     const arrayBarStyle = arrayBars[index].style;
     setTimeout(() => {
-      arrayBarStyle.backgroundColor = "red";
-    }, 5);
+      arrayBarStyle.backgroundColor = COMPARISON_COLOR_1;
+    }, MAX_DELAY);
 
     setTimeout(() => {
-      arrayBarStyle.backgroundColor = "blue";
-    }, 5 * 2);
+      arrayBarStyle.backgroundColor = COMPARISON_COLOR_2;
+    }, MAX_DELAY * 2);
   }
 
   function animateSortedArray() {
     const arrayBars = nodeRef.current.children;
     for (let index = 0; index < arrayBars.length; index++) {
       const arrayBarStyle = arrayBars[index].style;
-      setTimeout(() => (arrayBarStyle.backgroundColor = "green"), index * 5);
+      setTimeout(
+        () => (arrayBarStyle.backgroundColor = SORTED_COLOR),
+        index * MAX_DELAY
+      );
     }
     setTimeout(() => {
       setisSorted(true);
       setstartSorting(false);
-    }, arrayBars.length * 5);
+    }, arrayBars.length * MAX_DELAY);
   }
   return (
     <>
