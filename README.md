@@ -1,2 +1,16 @@
 # SortingVisualization
-Web Application that demonstrates how different sorting algorithms work
+
+A web application that demonstrates the visualization of different sorting algorithms.
+
+Built using React.js and React Bootstrap.
+
+## Sorting Algorithms Implemented
+
+- Merge Sort
+- Quick Sort
+- Bubble Sort
+- Others Coming Soon
+
+## Project Directory
+
+Please Navigate to `./sorting-app/src`

@@ -2,12 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import "./SortingVisualizer.css";
 import { Navbar, Nav } from "react-bootstrap";
 import { MergeSort } from "../SortingAlgorithms/MergeSort";
+import { BubbleSort } from "../SortingAlgorithms/BubbleSort";
+import { InsertionSort } from "../SortingAlgorithms/InsertionSort";
 
 //Maximum Array Size
 const MAX_ARR_LEN = 100;
 
 //Maximum Delay of Animation (used in Timeouts)
-const MAX_DELAY = 5;
+const MAX_DELAY = 20;
 
 // This is the main color of the array bars before sorted.
 const PRIMARY_COLOR = "#6399F1";
@@ -34,7 +36,9 @@ function SortingVisualizer(props) {
   const nodeRef = useRef(null);
 
   //similar to componentDidMount we want to load a new array each time we load the page
-  useEffect(resetArray, []);
+  useEffect(() => {
+    resetArray();
+  }, []);
 
   //This function resets the contents of the array each time we reload the page a new array will be generated
   // with random values
@@ -71,6 +75,16 @@ function SortingVisualizer(props) {
 
   function mergeSort() {
     const animationsArr = MergeSort(array);
+    updateAnimation(animationsArr);
+  }
+
+  function bubbleSort() {
+    const animationsArr = BubbleSort(array);
+    updateAnimation(animationsArr);
+  }
+
+  function insertionSort() {
+    const animationsArr = InsertionSort(array);
     updateAnimation(animationsArr);
   }
 
@@ -133,16 +147,17 @@ function SortingVisualizer(props) {
   }
   return (
     <>
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="dark" variant="dark" className="topnav">
         <Navbar.Brand>Sorting Visualization</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link onClick={resetArray}>Generate New Array</Nav.Link>
+            <Nav.Link onClick={bubbleSort}>Bubble Sort</Nav.Link>
+            <Nav.Link onClick={insertionSort}>Insertion Sort</Nav.Link>
+            <Nav.Link>Heap Sort</Nav.Link>
             <Nav.Link onClick={mergeSort}>Merge Sort</Nav.Link>
             <Nav.Link>Quick Sort</Nav.Link>
-            <Nav.Link>Heap Sort</Nav.Link>
-            <Nav.Link>Bubble Sort</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

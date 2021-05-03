@@ -1,5 +1,4 @@
-function BubbleSort(array) {
-  const animations = [];
+export function BubbleSort(array) {
   var isSorted = false;
   var lastSorted = array.length - 1;
   while (!isSorted) {

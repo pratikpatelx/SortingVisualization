@@ -12,3 +12,11 @@
   display: inline-block;
   margin: 0 1px;
 }
+
+.topnav {
+  border-bottom: 2px solid red;
+}
+
+.test :active :hover :focus {
+  background-color: red;
+}

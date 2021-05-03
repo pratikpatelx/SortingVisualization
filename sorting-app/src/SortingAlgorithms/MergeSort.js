@@ -1,10 +1,16 @@
 //
 export function MergeSort(arr) {
+  //copy the contents of the array into a new array
   const copy = [...arr];
+  //the length of the array that we copied
   const len = copy.length;
+  //a new array object of the correct length
   const aux = Array(len);
+  //a new animations array
   const animations = [];
+  //helper method to do the splitting into halves
   mergeSortHelper(copy, aux, 0, len - 1, animations);
+  console.table(animations);
   return animations;
 }
 
@@ -22,6 +28,8 @@ function merge(arr, aux, left, mid, right, animations) {
   }
   let i = left;
   let j = mid + 1;
+  //console.log(aux);
+  //console.log(arr);
   for (let k = left; k <= right; k++) {
     if (i > mid) {
       animations.push([[j], false]);
