@@ -180,7 +180,7 @@ function SortingVisualizer(props) {
             <Nav.Link onClick={resetArray}>Generate New Array</Nav.Link>
             <Nav.Link onClick={bubbleSort}>Bubble Sort</Nav.Link>
             <Nav.Link onClick={insertionSort}>Insertion Sort</Nav.Link>
-            <Nav.Link onClick={heapSort}>Heap Sort</Nav.Link>
+            {/* <Nav.Link onClick={heapSort}>Heap Sort</Nav.Link> */}
             <Nav.Link onClick={mergeSort}>Merge Sort</Nav.Link>
             <Nav.Link onClick={quickSort}>Quick Sort</Nav.Link>
           </Nav>
