@@ -1,4 +1,7 @@
-//
+/*
+Author: Pratik Patel
+Purpose: MergeSort.js contains the implementation of the MergeSort algorithm 
+*/
 export function MergeSort(arr) {
   //copy the contents of the array into a new array
   const copy = [...arr];
@@ -10,7 +13,6 @@ export function MergeSort(arr) {
   const animations = [];
   //helper method to do the splitting into halves
   mergeSortHelper(copy, aux, 0, len - 1, animations);
-  console.table(animations);
   return animations;
 }
 
