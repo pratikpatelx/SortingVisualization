@@ -8,6 +8,7 @@ Built using React.js and React Bootstrap.
 
 - Merge Sort
 - Quick Sort
+- Insertion Sort
 - Bubble Sort
 - Others Coming Soon
 
