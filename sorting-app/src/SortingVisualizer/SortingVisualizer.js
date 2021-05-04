@@ -38,6 +38,7 @@ function SortingVisualizer(props) {
   //similar to componentDidMount we want to load a new array each time we load the page
   useEffect(() => {
     resetArray();
+    // eslint-disable-next-line
   }, []);
 
   //This function resets the contents of the array each time we reload the page a new array will be generated
@@ -65,6 +66,9 @@ function SortingVisualizer(props) {
     setArray(tempArray);
   }
 
+  /*This function resets the Array Colour once we have generated a new array
+  so the colour of the bars will change to Blue once a new array is generated for sorting
+   */
   function resetArrayColor() {
     const arrBars = nodeRef.current.children;
     for (let i = 0; i < array.length; i++) {
@@ -73,21 +77,30 @@ function SortingVisualizer(props) {
     }
   }
 
+  /*This function does the mergeSort on the array, it  invokes the MergeSort function
+   from the src/SortingAlgorithms/MergeSort.js which contains the actual implementation of the merge sort algorithm */
   function mergeSort() {
     const animationsArr = MergeSort(array);
     updateAnimation(animationsArr);
   }
 
+  /*This function does the bubbleSort on the array, it  invokes the BubbleSort function
+   from the src/SortingAlgorithms/BubbleSort.js which contains the actual implementation of the bubble sort algorithm */
   function bubbleSort() {
     const animationsArr = BubbleSort(array);
     updateAnimation(animationsArr);
   }
 
+  /*This function does the insertionSort on the array, it  invokes the InsertionSort function
+   from the src/SortingAlgorithms/InsertionSort.js which contains the actual implementation of the insertion sort algorithm */
   function insertionSort() {
     const animationsArr = InsertionSort(array);
     updateAnimation(animationsArr);
   }
 
+  /*This function updates the animations on the bars, it compares the values of the bars and then updates the animation of
+  the bars according to the value of the array
+   */
   function updateAnimation(animations) {
     if (startSorting) {
       return;
