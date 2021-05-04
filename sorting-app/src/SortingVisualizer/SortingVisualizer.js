@@ -4,6 +4,8 @@ import { Navbar, Nav } from "react-bootstrap";
 import { MergeSort } from "../SortingAlgorithms/MergeSort";
 import { BubbleSort } from "../SortingAlgorithms/BubbleSort";
 import { InsertionSort } from "../SortingAlgorithms/InsertionSort";
+import { HeapSort } from "../SortingAlgorithms/HeapSort";
+import { QuickSort } from "../SortingAlgorithms/QuickSort";
 
 //Maximum Array Size
 const MAX_ARR_LEN = 100;
@@ -98,6 +100,16 @@ function SortingVisualizer(props) {
     updateAnimation(animationsArr);
   }
 
+  function heapSort() {
+    const animationsArr = HeapSort(array);
+    updateAnimation(animationsArr);
+  }
+
+  function quickSort() {
+    const animationsArr = QuickSort(array);
+    updateAnimation(animationsArr);
+  }
+
   /*This function updates the animations on the bars, it compares the values of the bars and then updates the animation of
   the bars according to the value of the array
    */
@@ -168,9 +180,9 @@ function SortingVisualizer(props) {
             <Nav.Link onClick={resetArray}>Generate New Array</Nav.Link>
             <Nav.Link onClick={bubbleSort}>Bubble Sort</Nav.Link>
             <Nav.Link onClick={insertionSort}>Insertion Sort</Nav.Link>
-            <Nav.Link>Heap Sort</Nav.Link>
+            <Nav.Link onClick={heapSort}>Heap Sort</Nav.Link>
             <Nav.Link onClick={mergeSort}>Merge Sort</Nav.Link>
-            <Nav.Link>Quick Sort</Nav.Link>
+            <Nav.Link onClick={quickSort}>Quick Sort</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
