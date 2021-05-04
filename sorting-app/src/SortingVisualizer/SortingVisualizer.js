@@ -100,10 +100,10 @@ function SortingVisualizer(props) {
     updateAnimation(animationsArr);
   }
 
-  function heapSort() {
-    const animationsArr = HeapSort(array);
-    updateAnimation(animationsArr);
-  }
+  // function heapSort() {
+  //   const animationsArr = HeapSort(array);
+  //   updateAnimation(animationsArr);
+  // }
 
   function quickSort() {
     const animationsArr = QuickSort(array);
