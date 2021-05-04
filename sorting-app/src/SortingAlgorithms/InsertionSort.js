@@ -1,3 +1,7 @@
+/*
+Author: Pratik Patel
+Purpose: InsertionSort.js contains the implementation of the InsertionSort algorithm 
+*/
 export function swapElements(array, index, tempIndex) {
   const temp = array[index];
   array[index] = array[tempIndex];
