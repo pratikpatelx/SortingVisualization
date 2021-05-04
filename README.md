@@ -4,6 +4,10 @@ A web application that demonstrates the visualization of different sorting algor
 
 Built using React.js and React Bootstrap.
 
+## Project Link
+
+The visualization project can be found at [https://pratikpatelx.github.io/SortingVisualization/]
+
 ## Sorting Algorithms Implemented
 
 - Merge Sort
